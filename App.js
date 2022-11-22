@@ -36,9 +36,8 @@ export default function App() {
   const [selectedCards,setSelectedCards]=React.useState([]);
   const [matchedCards,setMatchedCards]=React.useState([]);
   const [check, setCheck] = React.useState(false);
-  const [check2, setCheck2] = React.useState(false);
   const [score,setScore]=React.useState();
-  const baraja='emoji';
+  const [baraja,setBaraja]=React.useState(false);
 
 
   React.useEffect(()=>{
@@ -64,12 +63,14 @@ export default function App() {
   const gameAgain=()=>{
     setMatchedCards([]);
     setSelectedCards([]);
-     setBoard([])
+    setBoard([]);
+    setBaraja(false);
   };
   const novato =()=>{
     setMatchedCards([]);
     setScore(45);
     setSelectedCards([]);
+    setBaraja(true);
     if(check){
       setBoard(shuffle([...emoji,...emoji]));
     }else{
@@ -80,6 +81,7 @@ export default function App() {
     setMatchedCards([]);
     setScore(35);
     setSelectedCards([]);
+    setBaraja(true);
     if(check){
       setBoard(shuffle([...emoji,...emoji]));
     }else{
@@ -88,8 +90,9 @@ export default function App() {
   };
   const hero =()=>{
     setMatchedCards([]);
-    setScore(15);
+    setScore(20);
     setSelectedCards([]);
+    setBaraja(true);
     if(check){
       setBoard(shuffle([...emoji,...emoji]));
     }else{
@@ -101,6 +104,7 @@ export default function App() {
       //alert('Game over')c
       setBoard([]);
     }
+   
   }
 
   const over =()=> score==0 || score<0;
@@ -109,13 +113,12 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{win()?"Ganaste papa👻!!!":"M E M O R A M A"+''}</Text>
-      {/* <Text style={styles.score}  >{visible()?'Movimientos restantes: '+score:''}</Text> */}
-      {/* <Text style={styles.over}>{over()?'Perdiste 🥶!!!':""}</Text> */}
       <Text style={styles.score}  >{over()?'Perdiste 🥶!!!​Intentalo otra vez​👇🏻​👇🏻​':""}</Text>
+
       <View style={styles.option}>
       <Text style={styles.textOption}>Baraja:</Text>
       <CheckBox
-      
+      disabled={baraja}
       title={check?'emoji':'alterno'}
       checkedIcon="dot-circle-o"
       uncheckedIcon="circle-o"
@@ -151,7 +154,7 @@ export default function App() {
     <Text style={styles.levels}>{visible()?'':'Principiante'}</Text>
    </Pressable>
    <Pressable onPress={()=>gameAgain()}>
-    <Text style={styles.again}>{visible()?'Juega de nuevo':''}</Text>
+    <Text style={styles.again}>{visible()?'Jugar de nuevo':''}</Text>
    </Pressable>
       <StatusBar style="light" />
     </View>
