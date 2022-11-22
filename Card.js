@@ -16,17 +16,17 @@ export default function Card({onPress, isTurnedOver, children}){
 
 const styles = StyleSheet.create({
     cardUp: {
-      width: 100,
-      height: 100,
-      margin: 10,
+      width: 80,
+      height: 80,
+      margin: 6,
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: "#1e293b",
     },
     cardDown: {
-      width: 100,
-      height: 100,
-      margin: 10,
+      width: 80,
+      height: 80,
+      margin: 6,
       backgroundColor: "black",
       alignItems: "center",
       justifyContent: "center",

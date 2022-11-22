@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {  Pressable, StyleSheet, Text, View } from 'react-native';
+import { CheckBox } from '@rneui/themed';
 import Card from './Card'
 
 const cards = [
@@ -19,19 +20,30 @@ const cards = [
   // "👻",
   // "🥶",
   // "🥵",
+ 
+];
+const emoji =[
+  "😈",
+  "​😵​​",
+  "😴",
+  "​🤪",
+  "​😉​",
+  "​😎"
 ];
 export default function App() {
-  const [board,setBoard]=React.useState(()=>shuffle([...cards,...cards]));
+ // const [board,setBoard]=React.useState(()=>shuffle([...cards,...cards]));
+ const [board,setBoard]=React.useState([]);
   const [selectedCards,setSelectedCards]=React.useState([]);
   const [matchedCards,setMatchedCards]=React.useState([]);
-  const [score,setScore]=React.useState(15);
+  const [check2, setCheck2] = React.useState(false);
+  const [score,setScore]=React.useState();
+
 
   React.useEffect(()=>{
     if(selectedCards.length <2)return;
     if(board[selectedCards[0]] === board[selectedCards[1]]){
       setMatchedCards([...matchedCards,...selectedCards]);
       setSelectedCards([]);
-      setScore(score + 2);
     }else{
       const timeOutId = setTimeout(()=>setSelectedCards([],1000));
       return()=>clearTimeout(timeOutId);
@@ -44,25 +56,64 @@ export default function App() {
    setScore(score - 1);
    off();
   };
-  const win =()=> matchedCards.length===board.length;
-  const resetGame =()=>{
+  const win =()=> matchedCards.length===board.length && matchedCards.length>0;
+  //const win =()=>  board.length==0;
+
+  const check =()=>{
+    if(check2){
+      alert('emoji')
+    }
+  }
+  check();
+  const gameAgain=()=>{
+    setMatchedCards([]);
+    setSelectedCards([]);
+     setBoard([])
+  };
+  const novato =()=>{
+    setMatchedCards([]);
+    setScore(45);
+    setSelectedCards([]);
+    setBoard(shuffle([...emoji,...emoji]));
+  };
+  const medium =()=>{
+    setMatchedCards([]);
+    setScore(35);
+    setSelectedCards([]);
+    setBoard(shuffle([...emoji,...emoji]));
+  };
+  const hero =()=>{
     setMatchedCards([]);
     setScore(15);
     setSelectedCards([]);
+    setBoard(shuffle([...emoji,...emoji]));
   };
-
   const off =()=> {
-    if(score==0){
-      alert('Game over')
-      resetGame();
+    if(score==0 ){
+      //alert('Game over')c
+      setBoard([]);
     }
   }
-  const over =()=> score===0;
+
+  const over =()=> score==0 || score<0;
+  const visible =()=>  board.length>0;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{win()?"Ganaste papa👻!!!":"Memorama"}</Text>
-      <Text style={styles.score}>Movimientos restantes: {score}</Text>
-      <Text style={styles.title}>{over()?"Perdiste papa🥶!!!":""}</Text>
+      <Text style={styles.title}>{win()?"Ganaste papa👻!!!":"M E M O R A M A"+''}</Text>
+      <Text style={styles.score}  >{visible()?'Movimientos restantes: '+score:''}</Text>
+      <Text style={styles.over}>{over()?'Perdiste 🥶!!!':""}</Text>
+      <Text style={styles.score}  >{over()?'👇🏻​👇🏻​Intentalo otra vez​👇🏻​👇🏻​':""}</Text>
+      <CheckBox
+      center
+      title="Click Here"
+      checkedIcon="dot-circle-o"
+      uncheckedIcon="circle-o"
+      checked={check2}
+      onPress={() => setCheck2(!check2)}
+    />
+    <Text style={styles.again}>{check2?'ola':'adios'}</Text>
+
       <View style={styles.board}>
       {board.map((card,index)=>{
         const isTurnedOver=
@@ -78,9 +129,17 @@ export default function App() {
       })}
      
       </View>
-    
-   <Pressable onPress={()=>resetGame()}>
-    <Text style={styles.boton}>reset</Text>
+      <Pressable onPress={()=>hero()}>
+    <Text style={styles.levels}>{visible()?'':'Experto'}</Text>
+   </Pressable>
+   <Pressable onPress={()=>medium()}>
+    <Text style={styles.levels}>{visible()?'':'Intermedio'}</Text>
+   </Pressable>
+   <Pressable onPress={()=>novato()}>
+    <Text style={styles.levels}>{visible()?'':'Principiante'}</Text>
+   </Pressable>
+   <Pressable onPress={()=>gameAgain()}>
+    <Text style={styles.again}>{visible()?'Juega de nuevo':''}</Text>
    </Pressable>
       <StatusBar style="light" />
     </View>
@@ -98,12 +157,17 @@ const styles = StyleSheet.create({
   },
   title:{
     color:'white',
-    fontSize:32,
+    fontSize:25,
     fontWeight:'700'
   } ,
   over:{
-    color:'#0f172a',
-    fontSize:32,
+    color:'aqua',
+    fontSize:15,
+    fontWeight:'700'
+  },
+  gallina:{
+    color:'purple',
+    fontSize:15,
     fontWeight:'700'
   },
     board: {
@@ -114,12 +178,17 @@ const styles = StyleSheet.create({
   },
   score:{
     color:'gold',
-    fontSize:20,
+    fontSize:12,
     fontWeight:'500'
   },
-  boton:{
+  again:{
     color:'crimson',
     backgroundColor:'#0f172a'
+  },
+  levels:{
+    color:'crimson',
+    backgroundColor:'#0f172a',
+    marginBottom:5
   }
 });
 /**
