@@ -109,19 +109,22 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{win()?"Ganaste papa👻!!!":"M E M O R A M A"+''}</Text>
-      <Text style={styles.score}  >{visible()?'Movimientos restantes: '+score:''}</Text>
-      <Text style={styles.over}>{over()?'Perdiste 🥶!!!':""}</Text>
-      <Text style={styles.score}  >{over()?'👇🏻​👇🏻​Intentalo otra vez​👇🏻​👇🏻​':""}</Text>
+      {/* <Text style={styles.score}  >{visible()?'Movimientos restantes: '+score:''}</Text> */}
+      {/* <Text style={styles.over}>{over()?'Perdiste 🥶!!!':""}</Text> */}
+      <Text style={styles.score}  >{over()?'Perdiste 🥶!!!​Intentalo otra vez​👇🏻​👇🏻​':""}</Text>
+      <View style={styles.option}>
+      <Text style={styles.textOption}>Baraja:</Text>
       <CheckBox
       
       title={check?'emoji':'alterno'}
       checkedIcon="dot-circle-o"
       uncheckedIcon="circle-o"
       checked={check}
-      containerStyle={styles.again}
+      containerStyle={styles.checkBtn}
+      checkedColor='aqua'
       onPress={() => setCheck(!check)}
     />
-
+      </View>
       <View style={styles.board}>
       {board.map((card,index)=>{
         const isTurnedOver=
@@ -137,7 +140,8 @@ export default function App() {
       })}
      
       </View>
-      <Pressable onPress={()=>hero()}>
+    <Text style={styles.score}  >{visible()?'Movimientos restantes: '+score:''}</Text>
+    <Pressable onPress={()=>hero()}>
     <Text style={styles.levels}>{visible()?'':'Experto'}</Text>
    </Pressable>
    <Pressable onPress={()=>medium()}>
@@ -191,13 +195,29 @@ const styles = StyleSheet.create({
   },
   again:{
     color:'crimson',
-    backgroundColor:'#0f172a'
+    backgroundColor:'#0f172a',
   },
   levels:{
     color:'crimson',
     backgroundColor:'#0f172a',
     marginBottom:5
-  }
+  },
+  textOption:{
+    color:'aqua',
+    backgroundColor:'#0f172a',
+    fontSize:15
+  },
+  option:{
+    flexDirection:'row',
+    backgroundColor:'#0f172a',
+  },
+  checkBtn:{
+    fontSize:10,
+    padding:0,
+    margin:0,
+    backgroundColor:'#0f172a',
+    color:'green'
+  },
 });
 /**
  * Returns the array shuffled into a random order.
