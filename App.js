@@ -35,8 +35,10 @@ export default function App() {
  const [board,setBoard]=React.useState([]);
   const [selectedCards,setSelectedCards]=React.useState([]);
   const [matchedCards,setMatchedCards]=React.useState([]);
+  const [check, setCheck] = React.useState(false);
   const [check2, setCheck2] = React.useState(false);
   const [score,setScore]=React.useState();
+  const baraja='emoji';
 
 
   React.useEffect(()=>{
@@ -58,13 +60,7 @@ export default function App() {
   };
   const win =()=> matchedCards.length===board.length && matchedCards.length>0;
   //const win =()=>  board.length==0;
-
-  const check =()=>{
-    if(check2){
-      alert('emoji')
-    }
-  }
-  check();
+ 
   const gameAgain=()=>{
     setMatchedCards([]);
     setSelectedCards([]);
@@ -74,19 +70,31 @@ export default function App() {
     setMatchedCards([]);
     setScore(45);
     setSelectedCards([]);
-    setBoard(shuffle([...emoji,...emoji]));
+    if(check){
+      setBoard(shuffle([...emoji,...emoji]));
+    }else{
+      setBoard(shuffle([...cards,...cards]));
+    }
   };
   const medium =()=>{
     setMatchedCards([]);
     setScore(35);
     setSelectedCards([]);
-    setBoard(shuffle([...emoji,...emoji]));
+    if(check){
+      setBoard(shuffle([...emoji,...emoji]));
+    }else{
+      setBoard(shuffle([...cards,...cards]));
+    }
   };
   const hero =()=>{
     setMatchedCards([]);
     setScore(15);
     setSelectedCards([]);
-    setBoard(shuffle([...emoji,...emoji]));
+    if(check){
+      setBoard(shuffle([...emoji,...emoji]));
+    }else{
+      setBoard(shuffle([...cards,...cards]));
+    }
   };
   const off =()=> {
     if(score==0 ){
@@ -105,14 +113,14 @@ export default function App() {
       <Text style={styles.over}>{over()?'Perdiste 🥶!!!':""}</Text>
       <Text style={styles.score}  >{over()?'👇🏻​👇🏻​Intentalo otra vez​👇🏻​👇🏻​':""}</Text>
       <CheckBox
-      center
-      title="Click Here"
+      
+      title={check?'emoji':'alterno'}
       checkedIcon="dot-circle-o"
       uncheckedIcon="circle-o"
-      checked={check2}
-      onPress={() => setCheck2(!check2)}
+      checked={check}
+      containerStyle={styles.again}
+      onPress={() => setCheck(!check)}
     />
-    <Text style={styles.again}>{check2?'ola':'adios'}</Text>
 
       <View style={styles.board}>
       {board.map((card,index)=>{
